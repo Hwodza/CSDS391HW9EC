@@ -5,6 +5,7 @@ from sklearn.neural_network import MLPClassifier
 import matplotlib.pyplot as plt
 import numpy as np
 import time
+random_state = 1
 
 
 # Function to create and train neural networks
@@ -16,7 +17,7 @@ def create_and_train_nn(hidden_layers, X_train, y_train, X_test, y_test, max_ite
     runtimes = []
     
     for activation in activations:
-        model = MLPClassifier(hidden_layer_sizes=hidden_layers, activation=activation, solver='adam', warm_start=True, max_iter=1)
+        model = MLPClassifier(hidden_layer_sizes=hidden_layers, activation=activation, solver='adam', warm_start=True, max_iter=1, random_state=random_state)
         start_time = time.time()
         accuracy = []
         for _ in range(max_iter):
@@ -50,10 +51,12 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
     nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes = create_and_train_nn((3), X_train, y_train, X_test, y_test)
-
+    
     plt.figure(figsize=(10, 5))
     for activation, hidden_layers, accuracy in accuracies_1_layer_3_nodes:
         plt.plot(accuracy, label=f'{activation} {hidden_layers}')
+        plt.annotate(f'{accuracy[-1]:.2f}', xy=(len(accuracy)-1, accuracy[-1]), textcoords='offset points', xytext=(0,5), ha='center')
+        print(f'Activation: {activation}\nNumber of Hidden Layers: {hidden_layers}\nFinal Test Accuracy: {accuracy[-1]:.2f}\n')
     plt.xlabel('Iteration')
     plt.ylabel('Test Accuracy')
     plt.title('Test Accuracy vs Iteration')
@@ -61,6 +64,5 @@ def main():
     plt.show()
 
     
-
 if __name__ == "__main__":
     main()
