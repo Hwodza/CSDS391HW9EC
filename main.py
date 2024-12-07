@@ -8,7 +8,7 @@ import time
 import random
 
 
-random.seed(1)
+# random.seed(0)
 
 
 def create_and_train_nn(hidden_layers, X_train, y_train, X_test, y_test, max_iter=1000, random_state=1):
@@ -42,7 +42,6 @@ def repeat_nn(hidden_layers, X_train, y_train, X_test, y_test, max_iter=1000, n_
         accuracies.append(nn_accuracies)
         runtimes.append(nn_runtimes)
         models.append(nn_models)
-        plot_single(nn_models, nn_accuracies, nn_runtimes)
     return models, accuracies, runtimes
 
 
@@ -149,15 +148,13 @@ def main():
     # Split the data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42)
 
-    # # Create and train 3 nn models with 1 hidden layer and 3 nodes, one for each activation functions (logistic, tanh, relu)
-    # nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes = create_and_train_nn((10,10,10,10,10), X_train, y_train, X_test, y_test)
-    # plot_single(nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes)
 
-    # # Create and train 3 nn models with 1 hidden layer and 3 nodes, one for each activation functions (logistic, tanh, relu) 10 times, each with a different random state to see the mean and variance accuracy and runtime
-    # # Create and train 3 nn models with 1 hidden layer and 3 nodes, one for each activation function (logistic, tanh, relu) 10 times
-    # nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes = repeat_nn((3), X_train, y_train, X_test, y_test)
-    # plot_repeat_nn(nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes)
 
+    # Create and train 3 nn models with 1 hidden layer and 3 nodes, one for each activation function (logistic, tanh, relu)
+    nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes = create_and_train_nn((3), X_train, y_train, X_test, y_test)
+    plot_single(nn_models_1_layer_3_nodes, accuracies_1_layer_3_nodes, runtimes_1_layer_3_nodes)
+
+    
     nn = [(3), (10), (10, 10), (10, 10, 10), (10, 10, 10, 10)]
     nn = [(10, 10, 10)]
     for hidden_layers in nn:
